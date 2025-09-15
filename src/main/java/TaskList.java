@@ -39,6 +39,7 @@ public class TaskList extends ArrayList<Task> {
         em.getTransaction().begin();
         em.merge(task);
         em.getTransaction().commit();
+        em.refresh(task);
     }
 
     // Filtered in-memory lists

@@ -18,6 +18,14 @@ public class Task {
     @Column(name = "completion_status", nullable = false)
     private Boolean completionStatus = false;
 
+    public Task() {}
+
+    public Task(String taskName, Boolean completionStatus) {
+        this.taskName = taskName;
+        this.completionStatus = completionStatus;
+    }
+
+
     public Integer getId() {
         return id;
     }

@@ -58,9 +58,7 @@ public class TaskManager {
         System.out.println("Enter task name (or 'c' to cancel):");
         String name = scanner.nextLine();
         if (!name.equalsIgnoreCase("c")) {
-            Task t = new Task();
-            t.setTaskName(name);
-            t.setCompletionStatus(false);
+            Task t = new Task(name, false);
             taskList.addTask(t);
             System.out.println("Task added: " + t.getTaskInformation());
         } else {
