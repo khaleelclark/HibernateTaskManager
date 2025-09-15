@@ -5,11 +5,6 @@ import org.hibernate.annotations.ColumnDefault;
 
 @Entity
 @Table(name = "tasks")
-@NamedQuery(
-        name = "Task.byStatus",
-        query = "SELECT t FROM Task t WHERE t.completionStatus = :status"
-)
-
 public class Task {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,10 +20,6 @@ public class Task {
 
     public Integer getId() {
         return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public String getTaskName() {
@@ -47,16 +38,8 @@ public class Task {
         this.completionStatus = completionStatus;
     }
 
-    public String taskStatus () {
-        if (completionStatus) {
-            return "Completed ✓";
-        } else {
-            return "Incomplete ✗";
-        }
-    }
-
     public String getTaskInformation() {
-        return "ID: " + id + " | Task Name: " + taskName + " | Status: " + (completionStatus ? "Completed ✓" : "Incomplete ✗");
+        return "ID: " + id + " | Task Name: " + taskName + " | Status: " + (completionStatus ? "✓ Complete" : "✗ Incomplete");
     }
 
 
