@@ -34,18 +34,22 @@ public class TaskManager {
             System.out.println("2. Remove a task");
             System.out.println("3. Display all Tasks");
             System.out.println("4. Complete a task");
-            System.out.println("5. View all completed tasks");
-            System.out.println("6. View all incomplete tasks");
-            System.out.println("7. Exit");
+            System.out.println("5. Update a task name");
+            System.out.println("6. Update a task status");
+            System.out.println("7. View all completed tasks");
+            System.out.println("8. View all incomplete tasks");
+            System.out.println("9. Exit");
 
             switch (scanner.nextLine()) {
                 case "1" -> addTask();
                 case "2" -> removeTask();
                 case "3" -> displayAllTasks();
                 case "4" -> completeTask();
-                case "5" -> taskList.printCompletedTasks();
-                case "6" -> taskList.printIncompleteTasks();
-                case "7" -> {
+                case "5" -> editTaskName();
+                case "6" -> editTaskStatus();
+                case "7" -> taskList.printCompletedTasks();
+                case "8" -> taskList.printIncompleteTasks();
+                case "9" -> {
                     System.out.println("Thank you for using Zindel's Task Manager!");
                     System.exit(0);
                 }
@@ -123,5 +127,93 @@ public class TaskManager {
             System.out.println("Invalid ID entered.");
         }
     }
+
+    public static void editTaskName() {
+        displayAllTasks();
+        System.out.println("Enter the ID of the task to rename:");
+        String input = scanner.nextLine();
+        try {
+            int id = Integer.parseInt(input);
+            Task t = taskList.getTaskByID(id);
+            if (t == null) {
+                System.out.println("Task not found.");
+                return;
+            }
+
+            System.out.println("Current name: " + t.getTaskName());
+            System.out.println("Enter new task name (press Enter to keep current):");
+            String newName = scanner.nextLine();
+
+            if (newName.trim().isEmpty()) {
+                System.out.println("No changes made.");
+                return;
+            }
+
+            System.out.println("Are you sure you want to change name to \"" + newName + "\"? (y to confirm, c to cancel)");
+            String confirm = scanner.nextLine();
+            if (confirm.equalsIgnoreCase("y")) {
+                t.setTaskName(newName);
+                taskList.updateTask(t);
+                System.out.println("Task updated: " + t.getTaskInformation());
+            } else if (confirm.equalsIgnoreCase("c")) {
+                System.out.println("Canceling... No tasks have been removed.");
+            } else {
+                System.out.println("Error: Invalid entry. Please try again");
+            }
+
+        } catch (NumberFormatException e) {
+            System.out.println("Invalid ID entered.");
+        }
+    }
+
+    public static void editTaskStatus() {
+        displayAllTasks();
+        System.out.println("Enter the ID of the task to change status:");
+        String input = scanner.nextLine();
+        try {
+            int id = Integer.parseInt(input);
+            Task t = taskList.getTaskByID(id);
+            if (t == null) {
+                System.out.println("Task not found.");
+                return;
+            }
+
+            System.out.println("Current status: " + (t.getCompletionStatus() ? "Complete" : "Incomplete"));
+            System.out.println("Enter new status: 'c' for complete, 'i' for incomplete, or just press Enter to keep current:");
+            String newStatus = scanner.nextLine().trim();
+
+            if (newStatus.isEmpty()) {
+                System.out.println("No changes made.");
+                return;
+            }
+
+            boolean newValue;
+            if (newStatus.equalsIgnoreCase("c")) {
+                newValue = true;
+            } else if (newStatus.equalsIgnoreCase("i")) {
+                newValue = false;
+            } else {
+                System.out.println("Error: Invalid entry. Please try again.");
+                return;
+            }
+
+            System.out.println("Are you sure you want to change status of \"" + t.getTaskName() + "\" to " +
+                    (newValue ? "Complete" : "Incomplete") + "? (y to confirm, c to cancel)");
+            String confirm = scanner.nextLine();
+            if (confirm.equalsIgnoreCase("y")) {
+                t.setCompletionStatus(newValue);
+                taskList.updateTask(t);
+                System.out.println("Task updated: " + t.getTaskInformation());
+            } else if (confirm.equalsIgnoreCase("c")) {
+                System.out.println("Canceling... No tasks have been removed.");
+            } else {
+                System.out.println("Error: Invalid entry. Please try again");
+            }
+
+        } catch (NumberFormatException e) {
+            System.out.println("Invalid ID entered.");
+        }
+    }
+
 
 }

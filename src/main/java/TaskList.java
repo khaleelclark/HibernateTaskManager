@@ -42,7 +42,6 @@ public class TaskList extends ArrayList<Task> {
         em.refresh(task);
     }
 
-    // Filtered in-memory lists
     public List<Task> getCompletedTasks() {
         List<Task> completed = new ArrayList<>();
         for (Task t : this) if (t.getCompletionStatus()) completed.add(t);
